@@ -48,11 +48,13 @@
     	var year=document.getElementById("year");
     	var month=document.getElementById("month");
     	var d=new Date();
+    	var flag=0;
     	for(var i=1900;i<=2050;i++){
     		var option=document.createElement("option")
     		option.innerHTML=i+"年"
     		if(d.getFullYear()==i){
     			option.selected=true;
+    			flag=i-1900;
     		}
     		year.appendChild(option);
     	}
