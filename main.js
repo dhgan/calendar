@@ -1,11 +1,11 @@
 (function() {
     var orign = {
-        year: 1900,
-        mouth: 1,
-        date: 1,
-        day: 1
-    }
-    //判断是否是闰年
+            year: 1900,
+            mouth: 1,
+            date: 1,
+            day: 1
+        }
+        //判断是否是闰年
     function isLeap(y) {
         return y % 4 == 0 && y % 100 || y % 400 == 0 ? 1 : 0;
     }
@@ -83,7 +83,9 @@
         }
         return sumDay;
     }
-    function changeSelected(thisDate){
+
+    function changeSelected(thisDate) {
+        var flag = 1;
         for (var i = 1; i < 7; i++) {
             for (var j = 0; j < 7; j++) {
                 var cal = document.getElementById("calendar");
@@ -92,10 +94,16 @@
                 removeClass(c, "selected");
                 if (c.date == thisDate) {
                     addClass(c, "selected");
+                    flag = 0;
                 }
             }
         }
+        if (flag) {
+            var i = thisDate.lastIndexOf("-");
+            changeSelected(thisDate.substring(0, i + 1) + 1);
+        }
     }
+
     function addEvent(c) {
         c.onmouseover = function() {
             addClass(this, "active");
@@ -104,7 +112,7 @@
             removeClass(this, "active");
         }
         c.onclick = function() {
-            var thisDate=this.date;
+            var thisDate = this.date;
             var arr = this.date.split("-");
             if (parseInt(arr[0]) != 2051) {
                 var year = document.getElementById("year");
@@ -145,16 +153,16 @@
         var lastY = lastM == 12 ? y - 1 : y;
         var lastMDay = monthDay(lastY, lastM);
         var td = new Date;
-        var selectedDate=td.getDate();
+        var selectedDate = td.getDate();
         //上月
-        for (var i = 0; i < nowDay-1; i++) {
+        for (var i = 0; i < nowDay - 1; i++) {
             var c = calTab.children[0].children[1].children[i].children[0];
             var d = lastMDay + i - nowDay + 2;
-            if(c.className.search("selected")>-1){
-                selectedDate=c.date.split("-")[2];
+            if (c.className.search("selected") > -1) {
+                selectedDate = c.date.split("-")[2];
             }
             c.date = lastY + "-" + lastM + "-" + d;
-            removeClass(c,"today");
+            c.className = "";
             c.children[0].innerHTML = d;
             c.children[0].className = "ntm";
             c.children[1].className = "ntm";
@@ -166,11 +174,11 @@
         for (p = 1, n = 1, f = nowDay - 1; n <= mDay; p++, f = 0) {
             for (q = f; q < 7 && n <= mDay; q++) {
                 var c = calTab.children[0].children[p].children[q].children[0];
-                removeClass(c,"today");
-                if(c.className.search("selected")>-1){
-                    selectedDate=c.date.split("-")[2];
+                if (c.className.search("selected") > -1) {
+                    selectedDate = c.date.split("-")[2];
                 }
-                if (n == td.getDate()&&m==td.getMonth()+1&&td.getFullYear   ()==y) {
+                c.className = "";
+                if (n == td.getDate() && m == td.getMonth() + 1 && td.getFullYear() == y) {
                     c.className = "today";
                 }
                 c.date = y + "-" + m + "-" + n;
@@ -191,10 +199,10 @@
         for (var i = p - 1, f = q; i <= 6; i++, f = 0) {
             for (var j = f; j < 7; j++) {
                 var c = calTab.children[0].children[i].children[j].children[0];
-                removeClass(c,"today");
-                if(c.className.search("selected")>-1){
-                    selectedDate=c.date.split("-")[2];
+                if (c.className.search("selected") > -1) {
+                    selectedDate = c.date.split("-")[2];
                 }
+                c.className = "";
                 c.date = nextY + "-" + nextM + "-" + n;
                 c.children[0].innerHTML = n++;
                 c.children[0].className = "ntm";
@@ -202,8 +210,7 @@
                 addEvent(c);
             }
         }
-        console.log(selectedDate);
-        changeSelected(y+"-"+m+"-"+selectedDate);
+        changeSelected(y + "-" + m + "-" + selectedDate);
     }
     var cal = document.getElementById("calendar");
     var aSel = cal.getElementsByTagName("select");
