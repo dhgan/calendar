@@ -3,9 +3,11 @@
     padding: 0;
     font-family: "Microsoft Yahei";
 }
-
+@media (max-width: 390px){
+	#calendar{width: 100%;}
+}
 #calendar {
-    width: 384px;
+    width: 388px;
     padding: 10px;
     border: 2px solid #57ABFF;
     margin: 20px auto;
