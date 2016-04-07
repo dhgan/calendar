@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft Yahei";
+}
+
+#calendar {
+    width: 384px;
+    padding: 10px;
+    border: 2px solid #57ABFF;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+#calendar h1 {
+    text-align: center;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: #57ABFF;
+}
+
+#calendar select {
+    height: 26px;
+    margin: 0 10px 10px 0;
+}
+
+#calendar select option {
+    text-align: center;
+}
+
+#calendar table {
+    border-collapse: collapse;
+}
+
+#calendar tr {
+    border-top: 1px solid gray;
+}
+
+#calendar tr th {
+    height: 35px;
+    font-size: 16px;
+    font-weight: normal;
+    border-top: 1px solid #57ABFF;
+}
+
+#calendar tr td div {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    border: 2px solid transparent;
+    padding: 5px;
+    box-sizing: border-box;
+    margin: 0 1px;
+}
+
+#calendar tr td span {
+    font-size: 12px;
+    line-height: 20px;
+    display: block;
+    text-align: center;
+    height: 20px;
+}
+
+#calendar tr td span:first-child {
+    font-size: 18px;
+    height: 20px;
+    line-height: 20px;
+}
+
+#calendar tr td span.red {
+    color: red;
+}
+
+#calendar tr td span.ntm {
+    color: #BFBFBF;
+}
+
+#calendar tr td div.today {
+    color: white;
+    background: #57ABFF;
+}
+
+#calendar tr td div.selected {
+    border: 2px solid #57ABFF
+}
+
+#calendar tr td div.active {
+    border: 2px solid #57ABFF;
+}
