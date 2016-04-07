@@ -3,12 +3,8 @@
     padding: 0;
     font-family: "Microsoft Yahei";
 }
-@media (max-width: 390px){
-	#calendar{width: 100%;}
-}
 #calendar {
-	display: table;
-    width: 388px;
+    width: 374px;
     padding: 10px;
     border: 2px solid #57ABFF;
     margin: 20px auto;
@@ -48,7 +44,7 @@
 
 #calendar tr td div {
     cursor: pointer;
-    width: 50px;
+    width: 48px;
     height: 50px;
     border: 2px solid transparent;
     padding: 5px;
