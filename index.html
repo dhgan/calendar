@@ -11,10 +11,18 @@
 <body>
     <div id="calendar">
         <h1>万年历</h1>
-        <select name="year" id="year">
-        </select>
-        <select name="month" id="month">
-        </select>
+        <div class="selectBox">
+            <a href="javascript:;" id="prevYear">&lt;</a>
+            <select name="year" id="year">
+            </select>
+            <a href="javascript:;" id="nextYear">&gt;</a>
+        </div>
+        <div class="selectBox">
+            <a href="javascript:;" id="prevMonth">&lt;</a>
+            <select name="month" id="month">
+            </select>
+            <a href="javascript:;" id="nextMonth">&gt;</a>
+        </div>
         <input type="button" value="返回今天" id="rtToday" />
         <table>
             <tbody>

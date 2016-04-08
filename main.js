@@ -441,6 +441,56 @@
         }
         changeSelected(y + "-" + m + "-" + selectedDate);
     }
+    //转到上一年
+    function prevYear() {
+        var thisYear = document.getElementById("year");
+        var option = thisYear.getElementsByTagName("option");
+        var i = thisYear.selectedIndex;
+        if (i != 0) {
+            option[i - 1].selected = true;
+            updateDate();
+        }
+    }
+    //转到下一年
+    function nextYear() {
+        var thisYear = document.getElementById("year");
+        var option = thisYear.getElementsByTagName("option");
+        var i = thisYear.selectedIndex;
+        if (i != option.length - 1) {
+            option[i + 1].selected = true;
+            updateDate();
+        }
+    }
+    //转到上个月
+    function prevMonth() {
+        var thisYear = document.getElementById("year");
+        var thisMonth = document.getElementById("month");
+        var option1 = thisYear.getElementsByTagName("option");
+        var option2 = thisMonth.getElementsByTagName("option")
+        var i = thisYear.selectedIndex;
+        var j = thisMonth.selectedIndex;
+        if (i == 0 && j == 0) return;
+        j = j ? j - 1 : 11;
+        i = j == 11 ? i - 1 : i;
+        option1[i].selected = true;
+        option2[j].selected = true;
+        updateDate();
+    }
+    //转到下个月
+    function nextMonth() {
+        var thisYear = document.getElementById("year");
+        var thisMonth = document.getElementById("month");
+        var option1 = thisYear.getElementsByTagName("option");
+        var option2 = thisMonth.getElementsByTagName("option")
+        var i = thisYear.selectedIndex;
+        var j = thisMonth.selectedIndex;
+        if (i == option1.length - 1 && j == option2.length - 1) return;
+        j = j == 11 ? 0 : j + 1;
+        i = j ? i : i + 1;
+        option1[i].selected = true;
+        option2[j].selected = true;
+        updateDate();
+    }
     var cal = document.getElementById("calendar");
     var aSel = cal.getElementsByTagName("select");
     for (var i = 0; i < aSel.length; i++) {
@@ -453,6 +503,13 @@
         aSel[1].children[td.getMonth() - origin.month + 1].selected = true;
         updateDate(1);
     }
-
+    var prYear = document.getElementById("prevYear");
+    var ntYear = document.getElementById("nextYear");
+    var prMonth = document.getElementById("prevMonth");
+    var ntMonth = document.getElementById("nextMonth");
+    prYear.onclick = prevYear;
+    ntYear.onclick = nextYear;
+    prMonth.onclick = prevMonth;
+    ntMonth.onclick = nextMonth;
     updateDate();
 })();
