@@ -35,7 +35,8 @@
     line-height: 24px;
     cursor: pointer;
     color: gray;
-    border: 1px solid #D8D8D8;
+    border: 1px solid;
+    border-radius: 3px;
 }
 
 #calendar .selectBox a:hover {
