@@ -491,6 +491,29 @@
         option2[j].selected = true;
         updateDate();
     }
+    var startX,startY;
+    //触摸事件
+    function touchStartFunc(e){
+        e=e||event;
+        e.preventDefault();
+        var touch =e.touches[0];
+        startX= Number(touch.pageX);
+        startY=Number(touch.pageY);
+    }
+    function touchMoveFunc(){
+
+    }
+    function touchEndFunc(e){
+        e=e||event;
+        e.preventDefault();
+        var touch=e.touches[0];
+        if(x-startX>0){
+            nextMonth();
+        }
+        else if(x-startx<0){
+            prevMonth();
+        }
+    }
     var cal = document.getElementById("calendar");
     var aSel = cal.getElementsByTagName("select");
     for (var i = 0; i < aSel.length; i++) {
@@ -511,5 +534,10 @@
     ntYear.onclick = nextYear;
     prMonth.onclick = prevMonth;
     ntMonth.onclick = nextMonth;
+    if(document.createEvent("TouchEvent")){
+        cal.ontouchstart=touchStartFunc;
+        cal.ontouchmove=touchMoveFunc;
+        cal.ontouchsend=touchEndFunc;
+    }
     updateDate();
 })();
