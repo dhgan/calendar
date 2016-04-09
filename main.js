@@ -411,7 +411,7 @@
         for (var i = p - 1, f = q; i <= 6; i++, f = 0) {
             for (var j = f; j < 7; j++) {
                 var c = calTab.children[0].children[i].children[j].children[0];
-                if (c.className.search("selected" && !flag) > -1) {
+                if (c.className.search("selected") > -1 && !flag) {
                     selectedDate = c.date.split("-")[2];
                 }
                 c.className = "";
