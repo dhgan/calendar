@@ -241,6 +241,23 @@
         }
         return sumDay;
     }
+    function updateDayNum(thisDate){
+    	var dayNum=document.getElementById("dayNum");
+    	var td=new Date();
+    	var day1=[td.getFullYear(),td.getMonth()+1,td.getDate()];
+    	var day2=thisDate.split("-");
+    	var dNum1=originToDay(day1[0],day1[1],day1[2]);
+    	var dNum2=originToDay(day2[0],day2[1],day2[2]);
+		if(dNum1==dNum2){
+			dayNum.innerHTML="今天";
+		}
+		else if(dNum1>dNum2){
+			dayNum.innerHTML=dNum1-dNum2+"天前";
+		}
+		else{
+			dayNum.innerHTML=dNum2-dNum1+"天后";
+		}
+    }
     //改变选中的日期样式
     function changeSelected(thisDate) {
         var flag = 1; //检测是否该月有thisDate的date这天
@@ -251,6 +268,7 @@
                 removeClass(c, "selected");
                 if (c.date == thisDate) {
                     addClass(c, "selected");
+                    updateDayNum(thisDate);
                     flag = 0;
                 }
             }
