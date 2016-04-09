@@ -60,37 +60,37 @@
     cursor: pointer;
 }
 
-#calendar table {
+#calendarTable {
     border-collapse: collapse;
     width: 100%;
     table-layout: fixed;
 }
 
-#calendar tr {
+#calendarTable tr {
     border-top: 1px solid gray;
 }
 
-#calendar tr th {
+#calendarTable tr th {
     height: 35px;
     font-size: 16px;
     font-weight: normal;
     border-top: 1px solid #57ABFF;
 }
 
-#calendar tr td {
+#calendarTable tr td {
     height: 53px;
     padding: 0 1px;
     box-sizing: border-box;
     overflow: hidden;
 }
 
-#calendar tr td div {
+#calendarTable tr td div {
     cursor: pointer;
     border: 2px solid transparent;
     padding: 5px 0;
 }
 
-#calendar tr td span {
+#calendarTable tr td span {
     font-size: 12px;
     line-height: 20px;
     display: block;
@@ -101,30 +101,30 @@
     text-overflow: ellipsis;
 }
 
-#calendar tr td span:first-child {
+#calendarTable tr td span:first-child {
     font-size: 18px;
     height: 20px;
     line-height: 20px;
 }
 
-#calendar tr td span.red {
+#calendarTable tr td span.red {
     color: red;
 }
 
-#calendar tr td span.ntm {
+#calendarTable tr td span.ntm {
     color: #BFBFBF;
 }
 
-#calendar tr td div.today {
+#calendarTable tr td div.today {
     color: white;
     background: #57ABFF;
 }
 
-#calendar tr td div.selected {
+#calendarTable tr td div.selected {
     border: 2px solid #57ABFF
 }
 
-#calendar tr td div.active {
+#calendarTable tr td div.active {
     border: 2px solid #57ABFF;
 }
 
