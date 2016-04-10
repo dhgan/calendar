@@ -1,11 +1,34 @@
 ﻿(function() {
-    var origin = {
-        year: 1900,
-        month: 1,
-        date: 1,
-        day: 1
-    };
+    // 1900-2050年农历信息表
+    var lunarInfo = [
+        0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, //1900-1909
+        0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977, //1910-1919
+        0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970, //1920-1929
+        0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950, //1930-1939
+        0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557, //1940-1949
+        0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5b0, 0x14573, 0x052b0, 0x0a9a8, 0x0e950, 0x06aa0, //1950-1959
+        0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0, //1960-1969
+        0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b6a0, 0x195a6, //1970-1979
+        0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570, //1980-1989
+        0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0, //1990-1999
+        0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5, //2000-2009
+        0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930, //2010-2019
+        0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530, //2020-2029
+        0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45, //2030-2039
+        0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0, //2040-2049
+        0x14b63 //2050
+    ];
+    // 天干
+    var gan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+    // 地支
+    var zhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+    // 十二生肖
+    var animal = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+    //二十四节气
     var solarTerms = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"];
+    var nStr1 = ['日', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+    var nStr2 = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'];
+    //1900-2050二十四节气信息表
     var arrSolar = [
         0x95, 0xB4, 0x96, 0xA5, 0x96, 0x97, 0x88, 0x78, 0x78, 0x69, 0x78, 0x87, //1900
         0x96, 0xB4, 0x96, 0xA6, 0x97, 0x97, 0x78, 0x79, 0x79, 0x69, 0x78, 0x77, //1901
@@ -159,6 +182,7 @@
         0xA4, 0xC3, 0xA5, 0xA5, 0xA5, 0xA6, 0x97, 0x87, 0x87, 0x78, 0x87, 0x86, //2049
         0xA5, 0xC3, 0xA5, 0xB5, 0xA6, 0xA6, 0x87, 0x88, 0x78, 0x78, 0x87, 0x87 //2050
     ];
+    //公历固定日期节假日
     var intlFestival = {
         "1-1": "元旦",
         "2-14": "情人节",
@@ -168,7 +192,7 @@
         "4-1": "愚人节",
         "4-22": "地球日",
         "5-1": "劳动节",
-        "5-4": "五四青年节",
+        "5-4": "青年节",
         "6-1": "儿童节",
         "6-5": "世界环境日",
         "7-1": "建党节",
@@ -176,16 +200,29 @@
         "9-3": "抗战胜利日",
         "9-10": "教师节",
         "10-1": "国庆节",
-        "11-1": "万圣节",
-        "11-25": "感恩节",
+        "10-31": "万圣节",
         "12-1": "艾滋病日",
         "12-24": "平安夜",
         "12-25": "圣诞节",
     };
-    //按星期计算的节日
+    //农历节日
+    var lunarFestival = {
+            "1-1": "春节",
+            "1-15": "元宵节",
+            "5-5": "端午节",
+            "7-7": "七夕",
+            "7-15": "中元节",
+            "8-15": "中秋节",
+            "9-9": "重阳节",
+            "12-8": "腊八节",
+            "12-24": "小年",
+            "12-30": "除夕"
+        }
+        //按星期计算的节日
     var specFestival = {
         "5-2-7": "母亲节",
-        "6-3-7": "父亲节"
+        "6-3-7": "父亲节",
+        "11-4-4": "感恩节"
     };
     //判断是否是闰年
     function isLeap(y) {
@@ -227,74 +264,79 @@
             obj.className = obj.className.replace(reg, "");
         }
     }
-    //1900.1.1到某天天数
-    function originToDay(y, m, d) {
-        var sumDay = 0;
-        for (var i = origin.year; i < y; i++) {
-            sumDay += 365 + isLeap(i);
-        }
-        for (var i = 1; i < m; i++) {
-            sumDay += monthDay(y, i);
-        }
-        for (var i = origin.day; i < d; i++) {
-            sumDay += 1;
-        }
-        return sumDay;
+    // 补充小于10的月和天前面的0
+    function toDouble(i) {
+        return i < 10 ? "0" + i : i;
     }
-    function updateDayNum(thisDate){
-    	var dayNum=document.getElementById("dayNum");
-    	var td=new Date();
-    	var day1=[td.getFullYear(),td.getMonth()+1,td.getDate()];
-    	var day2=thisDate.split("-");
-    	var dNum1=originToDay(day1[0],day1[1],day1[2]);
-    	var dNum2=originToDay(day2[0],day2[1],day2[2]);
-		if(dNum1==dNum2){
-			dayNum.innerHTML="今天";
-		}
-		else if(dNum1>dNum2){
-			dayNum.innerHTML=dNum1-dNum2+"天前";
-		}
-		else{
-			dayNum.innerHTML=dNum2-dNum1+"天后";
-		}
+    // 更新日期的详细信息
+    function updateDateInfo(c) {
+        console.log(c.dateInfo);
+        var date = document.getElementById("date");
+        var day = document.getElementById("day");
+        var lunar = document.getElementById("lunar");
+        var lunarYear = document.getElementById('lunarYear');
+        var lunarDate = document.getElementById("lunarDate");
+        var feast = document.getElementById("feast");
+        date.innerHTML = c.dateInfo.year + "-" + toDouble(c.dateInfo.month) + "-" + toDouble(c.dateInfo.day) + " 星期" + c.dateInfo.week;
+        day.innerHTML = c.dateInfo.day;
+        lunar.innerHTML = c.dateInfo.lMonth + c.dateInfo.lDay;
+        lunarYear.innerHTML = c.dateInfo.gzYear + " 【" + c.dateInfo.animal + "年】";
+        lunarDate.innerHTML = c.dateInfo.gzMonth + "月 " + c.dateInfo.gzDay + "日";
+        var s = "";
+        if (c.dateInfo.lFest) {
+            var s = c.dateInfo.lFest;
+        }
+        if (c.dateInfo.sTerm) {
+            if (s) {
+                s += " " + c.dateInfo.sTerm;
+            } else {
+                s = c.dateInfo.sTerm;
+            }
+        }
+        if (c.dateInfo.iFest) {
+            if (s) {
+                s += " " + c.dateInfo.iFest;
+            } else {
+                s = c.dateInfo.iFest;
+            }
+        }
+        feast.innerHTML = s;
     }
     //改变选中的日期样式
     function changeSelected(thisDate) {
-        var flag = 1; //检测是否该月有thisDate的date这天
+        var flag = 1;
         for (var i = 1; i < 7; i++) {
             for (var j = 0; j < 7; j++) {
                 var calTab = document.getElementById("calendarTable");
                 var c = calTab.children[0].children[i].children[j].children[0];
                 removeClass(c, "selected");
-                if (c.date == thisDate) {
+                if (c.dateInfo.year + "-" + c.dateInfo.month + "-" + c.dateInfo.day == thisDate) {
                     addClass(c, "selected");
-                    updateDayNum(thisDate);
+                    updateDateInfo(c);
                     flag = 0;
                 }
             }
         }
-        if (flag) {
+        if (flag) { //若该月月有thisDate的date这天则选中该月一日
             var i = thisDate.lastIndexOf("-");
             changeSelected(thisDate.substring(0, i + 1) + 1);
         }
     }
-
+    //点击table中的操作
     function tdClick(obj) {
-        var thisDate = obj.date;
-        var arr = obj.date.split("-");
-        var y = parseInt(arr[0]);
-        var m = parseInt(arr[1]);
+        var y = obj.dateInfo.year;
+        var m = obj.dateInfo.month;
         var year = document.getElementById("year");
         var month = document.getElementById("month");
-        if (y != 2051 && (year.selectedIndex + origin.year != y || month.selectedIndex + 1 != m)) {
-            year.children[y - origin.year].selected = true;
+        changeSelected(y + "-" + m + "-" + obj.dateInfo.day);
+        if (y != 2051 && (year.selectedIndex + 1901 != y || month.selectedIndex + 1 != m)) {
+            // 若点击的不是本月则切换到点击的那个月
+            year.children[y - 1901].selected = true;
             month.children[m - 1].selected = true;
             updateDate();
         }
-        changeSelected(thisDate);
-        return false;
     }
-
+    //为表格中日期添加鼠标点击移入移出的响应
     function tdMouseFuc(e) {
         e = e || window.event;
         var target = e.target
@@ -322,106 +364,228 @@
             }
         }
     }
-    //判断某天是否为国际节假日
+    //y年农历闰哪月
+    function leapMonth(y) {
+        return (lunarInfo[y - 1900] & 0xf);
+    }
+    //y年农历闰月天数
+    function leapDays(y) {
+        if (leapMonth(y)) {
+            return lunarInfo[y - 1900] & 0x10000 ? 30 : 29;
+        }
+        return 0;
+    }
+    //y年的农历m月天数
+    function lunarMonthDays(y, m) {
+        var i = 0x10000 >> m;
+        return lunarInfo[y - 1900] & i ? 30 : 29;
+    }
+    //y年农历天数
+    function lunarYearDays(y) {
+        var sum = 0;
+        var m = lunarInfo[y - 1900];
+        for (var i = 0x8000; i > 0x8; i >>= 1) {
+            sum += m & i ? 30 : 29;
+        }
+        return (sum + leapDays(y));
+    }
+    //将农历的天转换成通俗叫法
+    function lunarDay(d) {
+        if (d >= 1 && d <= 10) {
+            return "初" + nStr1[d];
+        } else if (d <= 19) {
+            return "十" + nStr1[d - 10];
+        } else if (d == 20) {
+            return "二十";
+        } else if (d <= 29) {
+            return "廿" + nStr1[d - 20];
+        } else {
+            return "三十";
+        }
+    }
+    //获取y年第n个节气(以小寒为第一个节气)
+    function getSolarTerm(y, n) {
+        var i = parseInt((y - 1900) * 12 + n / 2);
+        if (n % 2) {
+            return 15 - (arrSolar[i] >> 4);
+        } else {
+            return 15 + arrSolar[i] % 16;
+        }
+    }
+    //转换成天干地支叫法
+    function ganZhi(g, z) {
+        return gan[g % 10] + zhi[z % 12];
+    }
+    //判断某天是否为公历节假日 m为月 d为天 s为该月第几个星期 w为星期几
     function isFestival(m, d, s, w) {
+        var fest = "";
         for (var i in intlFestival) {
             if (i == m + "-" + d) {
-                return intlFestival[i];
+                if (fest) {
+                    fest += " " + intlFestival[i];
+                } else {
+                    fest = intlFestival[i];
+                }
             }
         }
         for (var i in specFestival) {
             if (i == m + "-" + s + "-" + w) {
-                return specFestival[i];
+                if (fest) {
+                    fest += " " + specFestival[i];
+                } else {
+                    fest = specFestival[i];
+                }
+            }
+        }
+        return fest;
+    }
+    //农历m月d号是否为节日
+    function isLunarFestival(m, d) {
+        for (var i in lunarFestival) {
+            if (i == m + "-" + d) {
+                return lunarFestival[i];
             }
         }
         return "";
     }
-    //判断是否为节气
-    function isSolar(y, m, d) {
-        var i = (y - origin.year) * 12 + m - 1;
-        var p = arrSolar[i] >> 4;
-        if (15 - p == d) {
+    //判断y年m月d日是否为节气
+    function isSolarTerm(y, m, d) {
+        if (getSolarTerm(y, 2 * m - 1) == d) {
             return solarTerms[2 * m - 2];
-        }
-        p = arrSolar[i] % 16;
-        if (p + 15 == d) {
+        } else if (getSolarTerm(y, 2 * m - 2) == d) {
             return solarTerms[2 * m - 1];
-        }
-        return "";
+        } else return "";
     }
-    //添加节气和节日
-    function addFes(c, f, s) {
-        var t = "";
-        if (f && s) {
-            t = f + " " + s;
-        } else if (f) {
-            t = f;
+    //计算出y年m月d日的农历详细信息
+    function solarTolunar(y, m, d) {
+        var offset = (Date.UTC(y, m - 1, d) - Date.UTC(1900, 0, 31)) / 86400000;
+        var yNum = 0,
+            year = 1900;
+        var lYearDays
+        while (year <= 2050) {
+            lYearDays = lunarYearDays(year);
+            if (offset < lYearDays) {
+                break;
+            } else {
+                offset -= lYearDays;
+                yNum++;
+                year++;
+            }
+        }
+        var leap = leapMonth(year);
+        var month = 1,
+            isleap = false;
+        var lMonthDays;
+        while (month < 13) {
+            if (month == (leap + 1) && !isleap) {
+                month--;
+                isleap = true;
+                lMonthDays = leapDays(year);
+            } else {
+                lMonthDays = lunarMonthDays(year, month);
+            }
+            if (offset < lMonthDays) break;
+            offset -= lMonthDays;
+            if (isleap && month == leap + 1) { isleap = false; }
+            month++;
+        }
+        var day = offset + 1;
+        var lMonth; //农历月
+        if (isleap && month == leap) {
+            lMonth = "闰" + nStr2[month - 1] + "月";
         } else {
-            t = s;
+            lMonth = nStr2[month - 1] + "月";
         }
-        c.innerHTML = t;
-        c.title = t;
+        var lDay = lunarDay(day); //农历天
+        var sTerm = isSolarTerm(y, m, d);
+        var i = 0,
+            j = 0;
+        // 1900年立春后为 庚子年 鼠年
+        if (m == 2 && d < getSolarTerm(y, 3) || m < 2) i--; //若非该年立春前则年数减1
+        var gzYear = ganZhi(y - 1900 + i + 6, y - 1900 + i);
+        var animal1 = animal[(y - 1900 + i + 12) % 12];
+        //1900-1-1为丙子月 甲戌日
+        if (d < getSolarTerm(y, 2 * m - 1)) j--; //若非该月第一个节气前则月数减1
+        var gzMonth = ganZhi((y - 1900) * 12 + m + 2 + j, (y - 1900) * 12 + m + j);
+        var dNum = (Date.UTC(y, m - 1, d, 0, 0, 0, 0) - Date.UTC(1900, 0, 1, 0, 0, 0, 0)) / 86400000;
+        var gzDay = ganZhi(dNum, dNum + 10);
+        var nweek = (dNum + 1) % 7;
+        var week = nStr1[nweek];
+        nweek = nweek ? nweek : 7;
+        var lFest = isLunarFestival(month, day);
+        return ({ "year": y, "month": m, "day": d, "lMonth": lMonth, "lDay": lDay, "gzYear": gzYear, "gzMonth": gzMonth, "gzDay": gzDay, "sTerm": sTerm, "animal": animal1, "week": week, "nweek": nweek, "lFest": lFest });
     }
-    //更新日历
-    function updateDate(flag) {
+    //添加表格中节假日信息或节气信息或农历
+    function addTips(obj, json) {
+        var tip = json.lFest || json.iFest;
+        if (tip) {
+            obj.innerHTML = tip;
+            obj.title = tip;
+            obj.className = "red";
+        } else if (json.sTerm) {
+            obj.innerHTML = json.sTerm;
+            obj.className = "solar";
+        } else {
+            obj.title = "";
+            obj.innerHTML = json.lDay == "初一" ? json.lMonth : json.lDay;
+        }
+    }
+    //重新新日历表
+    function updateDate(flag) { //flag用于判断是否是返回今天
         var year = document.getElementById("year");
         var month = document.getElementById("month");
         var calTab = document.getElementById("calendarTable");
         var indexY = year.selectedIndex;
         var indexM = month.selectedIndex;
-        var y = parseInt(year.options[indexY].text);
-        var m = parseInt(month.options[indexM].text);
-        var sumDay = originToDay(y, m, 1);
-        var nowDay = (sumDay + origin.day) % 7;
-        nowDay = nowDay ? nowDay : 7;
-        //上月
+        var y = parseInt(year.options[indexY].innerHTML);
+        var m = parseInt(month.options[indexM].innerHTML);
+        var date = solarTolunar(y, m, 1);
+        //表格中上月部分
         var lastM = (m + 11) % 12;
         lastM = lastM ? lastM : 12;
         var lastY = lastM == 12 ? y - 1 : y;
         var lastMDay = monthDay(lastY, lastM);
         var td = new Date;
-        var selectedDate = td.getDate();
-        for (var i = 0; i < nowDay - 1; i++) {
+        var selectedDay = td.getDate();
+        for (var i = 0; i < date.nweek - 1; i++) {
             var c = calTab.children[0].children[1].children[i].children[0];
-            var d = lastMDay + i - nowDay + 2;
+            var d = lastMDay + i - date.nweek + 2;
             if (c.className.search("selected") > -1 && !flag) {
-                selectedDate = c.date.split("-")[2];
+                selectedDay = c.dateInfo.day;
             }
-            c.date = lastY + "-" + lastM + "-" + d;
             c.className = "";
-            var fes = isFestival(lastM, d, 1, i + 1);
-            var solar = isSolar(lastY, lastM, d);
-            addFes(c.children[1], fes, solar);
+            c.dateInfo = solarTolunar(lastY, lastM, d);
+            c.dateInfo.iFest = isFestival(lastM, d, 1, i + 1);
             c.children[0].innerHTML = d;
             c.children[0].className = "ntm";
+            addTips(c.children[1], c.dateInfo);
             c.children[1].className = "ntm";
         }
-        //本月
+        //表格中本月部分
         var mDay = monthDay(y, m);
         var p, q, n, f;
-        for (p = 1, n = 1, f = nowDay - 1; n <= mDay; p++, f = 0) {
+        for (p = 1, n = 1, f = date.nweek - 1; n <= mDay; p++, f = 0) {
             for (q = f; q < 7 && n <= mDay; q++) {
                 var c = calTab.children[0].children[p].children[q].children[0];
                 if (c.className.search("selected") > -1 && !flag) {
-                    selectedDate = c.date.split("-")[2];
+                    selectedDay = c.dateInfo.day;
                 }
                 c.className = "";
-                if (n == td.getDate() && m == td.getMonth() + 1 && td.getFullYear() == y) {
-                    c.className = "today";
-                }
-                c.date = y + "-" + m + "-" + n;
-                var fes = isFestival(m, n, p, q + 1);
-                var solar = isSolar(y, m, n);
-                addFes(c.children[1], fes, solar);
-                c.children[0].innerHTML = n++;
-                c.children[0].className = "";
                 if (q == 5 || q == 6) {
                     c.children[0].className = "red";
                 }
-                c.children[1].className = "red";
+                if (n == td.getDate() && m == td.getMonth() + 1 && td.getFullYear() == y) {
+                    c.className = "today";
+                }
+                c.dateInfo = solarTolunar(y, m, n);
+                c.dateInfo.iFest = isFestival(m, n, p, q + 1);
+                c.children[0].innerHTML = n++;
+                c.children[0].className = "";
+                c.children[1].className = "";
+                addTips(c.children[1], c.dateInfo);
             }
         }
-        //下月
+        //表格中下月部分
         var nextM = (m + 1) % 12;
         nextM = nextM ? nextM : 12;
         var nextY = nextM == 1 ? y + 1 : y;
@@ -430,21 +594,20 @@
             for (var j = f; j < 7; j++) {
                 var c = calTab.children[0].children[i].children[j].children[0];
                 if (c.className.search("selected") > -1 && !flag) {
-                    selectedDate = c.date.split("-")[2];
+                    selectedDay = c.dateInfo.day;
                 }
                 c.className = "";
-                c.date = nextY + "-" + nextM + "-" + n;
-                var fes = isFestival(nextM, n, i - p + 2, j + 1);
-                var solar = isSolar(nextY, nextM, n);
-                addFes(c.children[1], fes, solar);
+                c.dateInfo = solarTolunar(nextY, nextM, n);
+                c.dateInfo.iFest = isFestival(nextM, n, i - p + 2, j + 1);
                 c.children[0].innerHTML = n++;
                 c.children[0].className = "ntm";
+                addTips(c.children[1], c.dateInfo);
                 c.children[1].className = "ntm";
             }
         }
-        changeSelected(y + "-" + m + "-" + selectedDate);
+        changeSelected(y + "-" + m + "-" + selectedDay);
     }
-    //转到上一年
+    //转上一年
     function prevYear() {
         var thisYear = document.getElementById("year");
         var option = thisYear.getElementsByTagName("option");
@@ -512,54 +675,42 @@
     }
     //触摸开始触发函数
     function touchStartFunc(e) {
-        try {
-            e = e || window.event;
-            changeX = 0, changeY = 0, touchFlag = 1;
-            e.preventDefault();
-            var touch = e.targetTouches[0];
-            touchObj = touch.target;
-            startX = Number(touch.pageX);
-            startY = Number(touch.pageY);
-            simEvent(touchObj, "mouseout"); //有些浏览器touchstart触发mouseover却没有mouseout
-        } catch (ev) {
-            alert("touchStartFunc " + ev.message);
-        }
+        e = e || window.event;
+        changeX = 0, changeY = 0, touchFlag = 1;
+        var touch = e.targetTouches[0];
+        touchObj = touch.target;
+        startX = Number(touch.pageX);
+        startY = Number(touch.pageY);
+        simEvent(touchObj, "mouseout"); //有些浏览器touchstart触发mouseover却没有mouseout
         return false;
     }
     //触摸移动触发函数
     function touchMoveFunc(e) {
-        try {
-            e = e || window.event;
-            e.preventDefault();
-            var touch = e.targetTouches[0];
-            var x = Number(touch.pageX);
-            var y = Number(touch.pageY);
-            changeY = y - startY;
-            if (Math.abs(changeX) > Math.abs(x - startX)) {
-                touchFlag = 0;
-            } else {
-                changeX = x - startX;
-            }
-        } catch (ev) {
-            alert("touchStartFunc " + ev.message);
+        e = e || window.event;
+        var touch = e.targetTouches[0];
+        var x = Number(touch.pageX);
+        var y = Number(touch.pageY);
+        var t = (new Date()).getTime();
+        changeY = y - startY;
+        if (Math.abs(changeX) > Math.abs(x - startX)) { //若往返触摸则不发生反应
+            touchFlag = 0;
+        } else {
+            changeX = x - startX;
         }
     }
     //触摸结束触发函数
-    function touchEndFunc() {
-        try {
-            var table = document.getElementById("calendarTable");
-            var tdWidth = table.getElementsByTagName("td")[0].offsetWidth;
-            var tdHeight = table.getElementsByTagName("td")[0].offsetHeight;
-            if (changeX <= -tdWidth / 2 && touchFlag) {
-                nextMonth();
-            } else if (changeX >= tdWidth / 2 && touchFlag) {
-                prevMonth();
-            } else if (touchFlag && Math.abs(changeY) <= tdHeight / 2) {
-                simEvent(touchObj, "click");
-            }
-
-        } catch (ev) {
-            alert("touchEndFunc " + ev.message);
+    function touchEndFunc(e) {
+        e = e || window.event;
+        e.preventDefault();
+        var table = document.getElementById("calendarTable");
+        var tdWidth = table.getElementsByTagName("td")[0].offsetWidth;
+        var tdHeight = table.getElementsByTagName("td")[0].offsetHeight;
+        if (changeX <= -tdWidth / 2 && Math.abs(changeX) > 2 * Math.abs(changeY) && touchFlag) {
+            nextMonth(); //触摸屏左滑动进入下一个月
+        } else if (changeX >= tdWidth / 2 && Math.abs(changeX) > 2 * Math.abs(changeY) && touchFlag) {
+            prevMonth(); //触摸屏右滑动进入上一个月
+        } else if (touchFlag && Math.abs(changeY) <= tdHeight / 2) {
+            simEvent(touchObj, "click");
         }
     }
     //返回今天
@@ -567,8 +718,8 @@
         var td = new Date();
         var year = document.getElementById("year");
         var month = document.getElementById("month");
-        year.children[td.getFullYear() - origin.year].selected = true;
-        month.children[td.getMonth() - origin.month + 1].selected = true;
+        year.children[td.getFullYear() - 1901].selected = true;
+        month.children[td.getMonth()].selected = true;
         updateDate(1);
     }
     // 初始化，生成年和月的select及选择当前日期
@@ -576,7 +727,7 @@
         var year = document.getElementById("year");
         var month = document.getElementById("month");
         var d = new Date();
-        for (var i = 1900; i <= 2050; i++) {
+        for (var i = 1901; i <= 2050; i++) {
             var option = document.createElement("option")
             option.innerHTML = i + "年"
             if (d.getFullYear() == i) {
@@ -614,14 +765,10 @@
         table.addEventListener("click", tdMouseFuc, false);
         table.addEventListener("mouseover", tdMouseFuc, false);
         table.addEventListener("mouseout", tdMouseFuc, false);
-        try {
-            if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
-                table.addEventListener("touchstart", touchStartFunc, false);
-                table.addEventListener("touchmove", touchMoveFunc, false);
-                table.addEventListener("touchend", touchEndFunc, false);
-            }
-        } catch (e) {
-            alert("touch " + e.message);
+        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+            table.addEventListener("touchstart", touchStartFunc, false);
+            table.addEventListener("touchmove", touchMoveFunc, false);
+            table.addEventListener("touchend", touchEndFunc, false);
         }
     })();
 })();

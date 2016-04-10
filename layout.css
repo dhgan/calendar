@@ -5,12 +5,9 @@
 }
 
 #calendar {
-    width: 450px;
-    padding: 10px;
-    border: 2px solid #57ABFF;
+    width: 580px;
     margin: 20px auto;
     box-sizing: border-box;
-    overflow: hidden;
 }
 
 #calendar h1 {
@@ -20,12 +17,23 @@
     color: #57ABFF;
 }
 
-#calendar .selectBox {
-    float: left;
-    margin: 0 10px 10px 0;
+#calendarDiv {
+    position: relative;
 }
 
-#calendar .selectBox a {
+#selectDiv {
+    border: 2px solid #57ABFF;
+    overflow: hidden;
+    padding: 10px;
+}
+
+#selectDiv .selectBox {
+    float: left;
+    margin: 0 10px 10px 0;
+    overflow: hidden;
+}
+
+#selectDiv .selectBox a {
     float: left;
     text-decoration: none;
     text-align: center;
@@ -39,18 +47,14 @@
     border-radius: 3px;
 }
 
-#calendar .selectBox a:hover {
+#selectDiv .selectBox a:hover {
     color: #57ABFF;
     border-color: #57ABFF;
 }
 
-#calendar .selectBox select {
+#selectDiv .selectBox select {
     height: 26px;
     float: left;
-}
-
-#calendar .selectBox select option {
-    text-align: center;
 }
 
 #rtToday {
@@ -61,19 +65,10 @@
     margin-bottom: 10px;
 }
 
-#dayNum{
-    float: right;
-    height: 24px;
-    width: 80px;
-    line-height: 24px;
-    font-size: 14px;
-    text-align: right;
-}
-
 #calendarTable {
     border-collapse: collapse;
-    width: 100%;
     table-layout: fixed;
+    width: 100%;
 }
 
 #calendarTable tr {
@@ -101,7 +96,7 @@
 }
 
 #calendarTable tr td span {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     display: block;
     text-align: center;
@@ -117,6 +112,10 @@
     line-height: 20px;
 }
 
+#calendarTable tr td span.solar {
+    color: #8eb475;
+}
+
 #calendarTable tr td span.red {
     color: red;
 }
@@ -126,26 +125,93 @@
 }
 
 #calendarTable tr td div.today {
-    color: white;
-    background: #57ABFF;
+    color: white !important;
+    background: #FFBB00;
 }
 
 #calendarTable tr td div.selected {
-    border: 2px solid #57ABFF
+    border: 2px solid #FFBB00;
 }
 
 #calendarTable tr td div.active {
-    border: 2px solid #57ABFF;
+    border: 2px solid #FFBB00;
 }
 
-@media (max-width: 450px) and (min-width: 320px) {
+#dayInfo {
+    width: 130px;
+    height: 426px;
+    float: right;
+    background: #57ABFF;
+    color: white;
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+#dayInfo span {
+    font-size: 13px;
+    display: block;
+    text-align: center;
+    margin: 5px 0;
+}
+
+#dayInfo #date {
+    height: 46px;
+    line-height: 46px;
+}
+
+#dayInfo #day {
+    font-size: 60px;
+    height: 76px;
+    width: 80px;
+    line-height: 76px;
+    background-color: #FFBB00;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media (max-width: 580px) and (min-width: 500px) {
     #calendar {
         width: 100%;
     }
 }
-@media (max-width: 397px) and (min-width: 320px) {
-    #dayNum{
+
+@media (max-width: 499px) and (min-width: 320px) {
+    #calendar {
         width: 100%;
+        height: 566px;
+    }
+    #selectDiv {
+        border-bottom: none;
+    }
+    #calendarTable tr td span {
+        font-size: 10px;
+    }
+    #dayInfo {
+        width: 100%;
+        height: 90px;
+        position: absolute;
+        left: 0;
+        bottom: -90px;
+    }
+    #dayInfo #date {
+        height: 20px;
+        line-height: 20px;
+    }
+    #dayInfo div {
+        width: 50%;
+        float: left;
+    }
+    #dayInfo div:last-child {}
+    #dayInfo div:last-child span {
         text-align: left;
+        height: 16px;
+        line-height: 16px;
+    }
+    #dayInfo #day {
+        height: 55px;
+        width: 55px;
+        font-size: 30px;
+        line-height: 55px;
     }
 }
