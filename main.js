@@ -215,7 +215,7 @@
             "8-15": "中秋节",
             "9-9": "重阳节",
             "12-8": "腊八节",
-            "12-24": "小年",
+            "12-23": "小年",
             "12-30": "除夕"
     };
         //按星期计算的节日
@@ -279,7 +279,7 @@
         date.innerHTML = c.dateInfo.year + "-" + toDouble(c.dateInfo.month) + "-" + toDouble(c.dateInfo.day) + " 星期" + c.dateInfo.week;
         day.innerHTML = c.dateInfo.day;
         lunar.innerHTML = c.dateInfo.lMonth + c.dateInfo.lDay;
-        lunarYear.innerHTML = c.dateInfo.gzYear + " 【" + c.dateInfo.animal + "年】";
+        lunarYear.innerHTML = c.dateInfo.gzYear +"年"+ " 【" + c.dateInfo.animal + "年】";
         lunarDate.innerHTML = c.dateInfo.gzMonth + "月 " + c.dateInfo.gzDay + "日";
         var s = "";
         if (c.dateInfo.lFest) {
