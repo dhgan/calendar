@@ -203,7 +203,7 @@
         "10-31": "万圣节",
         "12-1": "艾滋病日",
         "12-24": "平安夜",
-        "12-25": "圣诞节",
+        "12-25": "圣诞节"
     };
     //农历节日
     var lunarFestival = {
@@ -217,7 +217,7 @@
             "12-8": "腊八节",
             "12-24": "小年",
             "12-30": "除夕"
-        }
+    };
         //按星期计算的节日
     var specFestival = {
         "5-2-7": "母亲节",
@@ -270,7 +270,6 @@
     }
     // 更新日期的详细信息
     function updateDateInfo(c) {
-        console.log(c.dateInfo);
         var date = document.getElementById("date");
         var day = document.getElementById("day");
         var lunar = document.getElementById("lunar");
@@ -317,29 +316,29 @@
                 }
             }
         }
-        if (flag) { //若该月月有thisDate的date这天则选中该月一日
+        if (flag) { //若该月月有thisDate的date这天则选中该月1日
             var i = thisDate.lastIndexOf("-");
             changeSelected(thisDate.substring(0, i + 1) + 1);
         }
     }
     //点击table中的操作
-    function tdClick(obj) {
-        var y = obj.dateInfo.year;
-        var m = obj.dateInfo.month;
+    function tdClick(date) {
+        var y = date.year;
+        var m = date.month;
         var year = document.getElementById("year");
         var month = document.getElementById("month");
-        changeSelected(y + "-" + m + "-" + obj.dateInfo.day);
         if (y != 2051 && (year.selectedIndex + 1901 != y || month.selectedIndex + 1 != m)) {
             // 若点击的不是本月则切换到点击的那个月
             year.children[y - 1901].selected = true;
             month.children[m - 1].selected = true;
             updateDate();
         }
+        changeSelected(y + "-" + m + "-" + date.day);
     }
     //为表格中日期添加鼠标点击移入移出的响应
     function tdMouseFuc(e) {
         e = e || window.event;
-        var target = e.target
+        var target = e.target||e.srcElement;
         if (target) {
             var obj = null;
             if (target.nodeName.toLowerCase() == "div") {
@@ -352,7 +351,7 @@
             if (obj) {
                 switch (e.type) {
                     case "click":
-                        tdClick(obj);
+                        tdClick(obj.dateInfo);
                         break;
                     case "mouseover":
                         addClass(obj, "active");
@@ -571,6 +570,8 @@
                     selectedDay = c.dateInfo.day;
                 }
                 c.className = "";
+                c.children[0].className = "";
+                c.children[1].className = "";
                 if (q == 5 || q == 6) {
                     c.children[0].className = "red";
                 }
@@ -580,8 +581,6 @@
                 c.dateInfo = solarTolunar(y, m, n);
                 c.dateInfo.iFest = isFestival(m, n, p, q + 1);
                 c.children[0].innerHTML = n++;
-                c.children[0].className = "";
-                c.children[1].className = "";
                 addTips(c.children[1], c.dateInfo);
             }
         }
@@ -746,6 +745,13 @@
         updateDate();
     })();
     //给Dom添加监听事件
+    function addEvent(obj,event,fuc,bubble){
+    	if(document.addEventListener){
+    		obj.addEventListener(event,fuc,bubble);
+    	}else{
+    		obj.attachEvent("on"+event,fuc);
+    	}
+    }
     (function() {
         var year = document.getElementById("year");
         var month = document.getElementById("month");
@@ -755,20 +761,20 @@
         var ntMonth = document.getElementById("nextMonth");
         var rtBtn = document.getElementById("rtToday");
         var table = document.getElementById("calendarTable");
-        year.addEventListener("change", updateDate, false);
-        month.addEventListener("change", updateDate, false);
-        rtBtn.addEventListener("click", returnToday, false);
-        prYear.addEventListener("click", prevYear, false);
-        ntYear.addEventListener("click", nextYear, false);
-        prMonth.addEventListener("click", prevMonth, false);
-        ntMonth.addEventListener("click", nextMonth, false);
-        table.addEventListener("click", tdMouseFuc, false);
-        table.addEventListener("mouseover", tdMouseFuc, false);
-        table.addEventListener("mouseout", tdMouseFuc, false);
+        addEvent(year,"change", updateDate, false);
+        addEvent(month,"change", updateDate, false);
+        addEvent(rtBtn,"click", returnToday, false);
+        addEvent(prYear,"click", prevYear, false);
+        addEvent(ntYear,"click", nextYear, false);
+        addEvent(prMonth,"click", prevMonth, false);
+        addEvent(ntMonth,"click", nextMonth, false);
+        addEvent(table,"click", tdMouseFuc, false);
+        addEvent(table,"mouseover", tdMouseFuc, false);
+        addEvent(table,"mouseout", tdMouseFuc, false);
         if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
-            table.addEventListener("touchstart", touchStartFunc, false);
-            table.addEventListener("touchmove", touchMoveFunc, false);
-            table.addEventListener("touchend", touchEndFunc, false);
+            addEvent(table,"touchstart", touchStartFunc, false);
+            addEvent(table,"touchmove", touchMoveFunc, false);
+            addEvent(table,"touchend", touchEndFunc, false);
         }
     })();
 })();
