@@ -415,7 +415,7 @@
     function ganZhi(g, z) {
         return gan[g % 10] + zhi[z % 12];
     }
-    //判断某天是否为公历节假日 m为月 d为天 s为该月第几个星期 w为星期几
+    //判断某天是否为公历节假日 m为月 d为天 s为该月第几个星期w w为星期几
     function isFestival(m, d, s, w) {
         var fest = "";
         for (var i in intlFestival) {
@@ -512,7 +512,8 @@
         var week = nStr1[nweek];
         nweek = nweek ? nweek : 7;
         var lFest = isLunarFestival(month, day);
-        return ({ "year": y, "month": m, "day": d, "lMonth": lMonth, "lDay": lDay, "gzYear": gzYear, "gzMonth": gzMonth, "gzDay": gzDay, "sTerm": sTerm, "animal": animal1, "week": week, "nweek": nweek, "lFest": lFest });
+        var iFest = isFestival(m,d,Math.floor((d-1)/7)+1,nweek);
+        return ({ "year": y, "month": m, "day": d, "lMonth": lMonth, "lDay": lDay, "gzYear": gzYear, "gzMonth": gzMonth, "gzDay": gzDay, "sTerm": sTerm, "animal": animal1, "week": week, "nweek": nweek, "lFest": lFest ,"iFest": iFest});
     }
     //添加表格中节假日信息或节气信息或农历
     function addTips(obj, json) {
@@ -554,10 +555,9 @@
             }
             c.className = "";
             c.dateInfo = solarTolunar(lastY, lastM, d);
-            c.dateInfo.iFest = isFestival(lastM, d, 1, i + 1);
+            addTips(c.children[1], c.dateInfo);
             c.children[0].innerHTML = d;
             c.children[0].className = "ntm";
-            addTips(c.children[1], c.dateInfo);
             c.children[1].className = "ntm";
         }
         //表格中本月部分
@@ -579,7 +579,6 @@
                     c.className = "today";
                 }
                 c.dateInfo = solarTolunar(y, m, n);
-                c.dateInfo.iFest = isFestival(m, n, p, q + 1);
                 c.children[0].innerHTML = n++;
                 addTips(c.children[1], c.dateInfo);
             }
@@ -597,10 +596,9 @@
                 }
                 c.className = "";
                 c.dateInfo = solarTolunar(nextY, nextM, n);
-                c.dateInfo.iFest = isFestival(nextM, n, i - p + 2, j + 1);
+                addTips(c.children[1], c.dateInfo);
                 c.children[0].innerHTML = n++;
                 c.children[0].className = "ntm";
-                addTips(c.children[1], c.dateInfo);
                 c.children[1].className = "ntm";
             }
         }
