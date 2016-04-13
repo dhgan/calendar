@@ -260,7 +260,7 @@
     //去掉obj名为name的class
     function removeClass(obj, name) {
         if (obj.className) {
-            var reg = new RegExp("(\\s|^)" + name + "(\\s|$)")
+            var reg = new RegExp("(((\\s|^)" + name + "$)|(^" + name + "(\\s|$)))")
             obj.className = obj.className.replace(reg, "");
         }
     }
