@@ -532,6 +532,7 @@
     }
     //重新新日历表
     function updateDate(flag) { //flag用于判断是否是返回今天
+        console.log(flag);
         var year = document.getElementById("year");
         var month = document.getElementById("month");
         var calTab = document.getElementById("calendarTable");
@@ -550,7 +551,7 @@
         for (var i = 0; i < date.nweek - 1; i++) {
             var c = calTab.children[0].children[1].children[i].children[0];
             var d = lastMDay + i - date.nweek + 2;
-            if (c.className.search("selected") > -1 && !flag) {
+            if (c.className.search("selected") > -1 && flag!=1) {
                 selectedDay = c.dateInfo.day;
             }
             c.className = "";
@@ -566,7 +567,7 @@
         for (p = 1, n = 1, f = date.nweek - 1; n <= mDay; p++, f = 0) {
             for (q = f; q < 7 && n <= mDay; q++) {
                 var c = calTab.children[0].children[p].children[q].children[0];
-                if (c.className.search("selected") > -1 && !flag) {
+                if (c.className.search("selected") > -1 && flag!=1) {
                     selectedDay = c.dateInfo.day;
                 }
                 c.className = "";
@@ -591,7 +592,7 @@
         for (var i = p - 1, f = q; i <= 6; i++, f = 0) {
             for (var j = f; j < 7; j++) {
                 var c = calTab.children[0].children[i].children[j].children[0];
-                if (c.className.search("selected") > -1 && !flag) {
+                if (c.className.search("selected") > -1 && flag!=1) {
                     selectedDay = c.dateInfo.day;
                 }
                 c.className = "";
