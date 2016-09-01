@@ -1,4 +1,5 @@
 ﻿(function() {
+    "use strict";
     // 1900-2050年农历信息表
     var lunarInfo = [
         0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2, //1900-1909
@@ -251,16 +252,18 @@
     //给obj添加名为name的class
     function addClass(obj, name) {
         if (obj.className.search(name) == -1) {
-            if (obj.className)
+            if (obj.className){
                 obj.className += " " + name;
-            else
+            }
+            else{
                 obj.className = name;
+            }
         }
     }
     //去掉obj名为name的class
     function removeClass(obj, name) {
         if (obj.className) {
-            var reg = new RegExp("(((\\s|^)" + name + "$)|(^" + name + "(\\s|$)))")
+            var reg = new RegExp("(((\\s|^)" + name + "$)|(^" + name + "(\\s|$)))");
             obj.className = obj.className.replace(reg, "");
         }
     }
@@ -283,7 +286,7 @@
         lunarDate.innerHTML = c.dateInfo.gzMonth + "月 " + c.dateInfo.gzDay + "日";
         var s = "";
         if (c.dateInfo.lFest) {
-            var s = c.dateInfo.lFest;
+            s = c.dateInfo.lFest;
         }
         if (c.dateInfo.sTerm) {
             if (s) {
@@ -304,10 +307,13 @@
     //改变选中的日期样式
     function changeSelected(thisDate) {
         var flag = 1;
-        for (var i = 1; i < 7; i++) {
-            for (var j = 0; j < 7; j++) {
-                var calTab = document.getElementById("calendarTable");
-                var c = calTab.children[0].children[i].children[j].children[0];
+        var i=1;
+        var j=0;
+        var calTab = document.getElementById("calendarTable");
+        var c=null;
+        for(i = 1; i < 7; i+=1) {
+            for(j = 0; j < 7; j+=1) {
+                c = calTab.children[0].children[i].children[j].children[0];
                 removeClass(c, "selected");
                 if (c.dateInfo.year + "-" + c.dateInfo.month + "-" + c.dateInfo.day == thisDate) {
                     addClass(c, "selected");
@@ -317,7 +323,7 @@
             }
         }
         if (flag) { //若该月月有thisDate的date这天则选中该月1日
-            var i = thisDate.lastIndexOf("-");
+            i = thisDate.lastIndexOf("-");
             changeSelected(thisDate.substring(0, i + 1) + 1);
         }
     }
@@ -383,7 +389,8 @@
     function lunarYearDays(y) {
         var sum = 0;
         var m = lunarInfo[y - 1900];
-        for (var i = 0x8000; i > 0x8; i >>= 1) {
+        var i;
+        for (i = 0x8000; i > 0x8; i >>= 1) {
             sum += m & i ? 30 : 29;
         }
         return (sum + leapDays(y));
@@ -405,7 +412,7 @@
     //获取y年第n个节气(以小寒为第一个节气)
     function getSolarTerm(y, n) {
         var i = parseInt((y - 1900) * 12 + n / 2);
-        if (n % 2) {
+        if (n % 2===1) {
             return 15 - (arrSolar[i] >> 4);
         } else {
             return 15 + arrSolar[i] % 16;
@@ -418,7 +425,8 @@
     //判断某天是否为公历节假日 m为月 d为天 s为该月第几个星期w w为星期几
     function isFestival(m, d, s, w) {
         var fest = "";
-        for (var i in intlFestival) {
+        var i;
+        for (i in intlFestival) {
             if (i == m + "-" + d) {
                 if (fest) {
                     fest += " " + intlFestival[i];
@@ -427,7 +435,7 @@
                 }
             }
         }
-        for (var i in specFestival) {
+        for (i in specFestival) {
             if (i == m + "-" + s + "-" + w) {
                 if (fest) {
                     fest += " " + specFestival[i];
@@ -440,7 +448,8 @@
     }
     //农历m月d号是否为节日
     function isLunarFestival(m, d) {
-        for (var i in lunarFestival) {
+        var i;
+        for (i in lunarFestival) {
             if (i == m + "-" + d) {
                 return lunarFestival[i];
             }
@@ -453,19 +462,21 @@
             return solarTerms[2 * m - 2];
         } else if (getSolarTerm(y, 2 * m - 2) == d) {
             return solarTerms[2 * m - 1];
-        } else return "";
+        } else {
+            return "";
+        }
     }
     //计算出y年m月d日的农历详细信息
     function solarTolunar(y, m, d) {
         var offset = (Date.UTC(y, m - 1, d) - Date.UTC(1900, 0, 31)) / 86400000;
         var yNum = 0,
-            year = 1900;
-        var lYearDays
+            year = 1900,
+            lYearDays;
         while (year <= 2050) {
             lYearDays = lunarYearDays(year);
             if (offset < lYearDays) {
                 break;
-            } else {
+            } else{
                 offset -= lYearDays;
                 yNum++;
                 year++;
@@ -746,9 +757,9 @@
     //给Dom添加监听事件
     function addEvent(obj,event,fuc,bubble){
     	if(document.addEventListener){
-    		obj.addEventListener(event,fuc,bubble);
-    	}else{
-    		obj.attachEvent("on"+event,fuc);
+            obj.addEventListener(event,fuc,bubble);
+    	} else{
+    		obj.attachEvent("on" + event,fuc);
     	}
     }
     (function() {
