@@ -543,7 +543,6 @@
     }
     //重新新日历表
     function updateDate(flag) { //flag用于判断是否是返回今天
-        console.log(flag);
         var year = document.getElementById("year");
         var month = document.getElementById("month");
         var calTab = document.getElementById("calendarTable");
